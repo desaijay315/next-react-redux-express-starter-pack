@@ -1,21 +1,24 @@
-import { createStore, applyMiddleware, combineReducers } from 'redux'
+import { createStore, applyMiddleware } from 'redux'
+import { composeWithDevTools } from 'redux-devtools-extension'
 import thunkMiddleware from 'redux-thunk'
-import bitprice from './redux/reducers/bitprice'
-// import tick from './tick/reducer'
+import reducers from './redux/reducers'
 
-const bindMiddleware = middleware => {
-  if (process.env.NODE_ENV !== 'production') {
-    const { composeWithDevTools } = require('redux-devtools-extension')
-    return composeWithDevTools(applyMiddleware(...middleware))
-  }
-  return applyMiddleware(...middleware)
-}
-
-export const initStore = () => {
-  return createStore(
-    combineReducers({
-        bitprice
-    }),
-    bindMiddleware([thunkMiddleware])
+// CREATING INITIAL STORE
+export default initialState => {
+  const store = createStore(
+    reducers,
+    initialState,
+    composeWithDevTools(applyMiddleware(thunkMiddleware))
   )
+
+  // IF REDUCERS WERE CHANGED, RELOAD WITH INITIAL STATE
+  if (module.hot) {
+    module.hot.accept('./redux/reducers', () => {
+      const createNextReducer = require('./redux/reducers').default
+
+      store.replaceReducer(createNextReducer(initialState))
+    })
+  }
+
+  return store
 }

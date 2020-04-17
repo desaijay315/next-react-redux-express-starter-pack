@@ -1,7 +1,6 @@
-import Fetch from 'isomorphic-unfetch';
+// import Fetch from 'isomorphic-unfetch';
 import {connect} from 'react-redux';
-import React, { useEffect, useState } from 'react'
-import { bindActionCreators } from 'redux'
+import React from 'react'
 
 
 
@@ -13,9 +12,9 @@ import Prices from '../components/Prices';
 
 
 const Index = (props) => {
-    useEffect(() => {
-        props.fetbizPrice();
-      },[]);
+    // useEffect(() => {
+    //     props.fetbizPrice();
+    //   },[]);
 
         return(
             <Layout>
@@ -30,17 +29,12 @@ const Index = (props) => {
 }
 
 Index.getInitialProps = async ({ store }) => {
-    store.dispatch(fetbizPrice())
+    await store.dispatch(fetbizPrice())
+    return {}
 }
 
 const mapStateToProps = state => ({
     bizData: state.bitprice.bizpricedata
-});  
+});
 
-const mapDispatchToProps = dispatch => {
-    return {
-      fetbizPrice: bindActionCreators(fetbizPrice, dispatch)
-    }
-  }
-
-export default connect(mapStateToProps, mapDispatchToProps)(Index);
+export default connect(mapStateToProps, null)(Index);

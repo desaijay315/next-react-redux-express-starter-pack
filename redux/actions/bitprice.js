@@ -9,7 +9,7 @@ export const fetbizPrice = () => async dispatch => {
         const res = await axios.get('https://api.coindesk.com/v1/bpi/currentprice.json');
         dispatch({
             type: FETCH_PRICE,
-            payload: res.data
+            payload:  res.data
         });
 
     } catch (error) {
