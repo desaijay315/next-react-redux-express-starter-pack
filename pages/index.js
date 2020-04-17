@@ -2,8 +2,6 @@
 import {connect} from 'react-redux';
 import React from 'react'
 
-
-
 import Layout from '../components/Layout';
 
 import {fetbizPrice} from '../redux/actions/bitprice';
