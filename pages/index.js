@@ -27,6 +27,7 @@ const Index = (props) => {
 }
 
 Index.getInitialProps = async ({ store }) => {
+    // console.log(store);
     await store.dispatch(fetbizPrice())
     return {}
 }
